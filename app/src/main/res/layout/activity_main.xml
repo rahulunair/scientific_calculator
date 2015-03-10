@@ -247,7 +247,7 @@
         android:layout_height="80dp"
         android:layout_below="@id/Btn_4_id"
         android:layout_toRightOf="@id/Btn_minus_id"
-        android:onClick="result_click"
+        android:onClick="operation_click"
         android:text="@string/Btn_equal" />
 
     <Button
@@ -408,7 +408,7 @@
         android:layout_alignRight="@+id/button_log"
         android:layout_alignEnd="@+id/button_log"
         android:layout_alignBottom="@+id/button_pi"
-        android:onClick="history"/>
+        android:onClick="show_history"/>
 
 
 </RelativeLayout>

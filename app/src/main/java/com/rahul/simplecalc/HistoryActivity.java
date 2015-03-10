@@ -43,7 +43,7 @@ public class HistoryActivity extends ActionBarActivity {
         super.onPause();
 
 
-        
+
 
     }
 

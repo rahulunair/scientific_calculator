@@ -50,6 +50,7 @@
     <string name="Btn_mod">mod</string>
     <string name="Btn_pi">pi</string>
     <string name="Btn_history">history</string>
+    <string name="title_activity_history">HistoryActivity</string>
 
 
 </resources>

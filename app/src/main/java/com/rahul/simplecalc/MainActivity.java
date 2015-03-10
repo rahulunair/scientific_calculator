@@ -1,5 +1,6 @@
 package com.rahul.simplecalc;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,16 +12,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import mathparser.Parser;
+import mathparser.ParsingException;
+
 
 public class MainActivity extends ActionBarActivity {
 
 
-    boolean calculated = false;
+    ArrayList <String> history = new ArrayList<>();
     Character op = ' ';
     String input_expr = "";
     int result, sum;
     EditText display;
     String memSave = "";
+    double solution = 0.0;
 
     boolean dotFlag = false;
 
@@ -74,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
                    show(".");
                    dotFlag =true;
                }
-                else Toast.makeText(this, "more than one decimal specifier not allowed", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(this, "more than one decimal specifier, not allowed", Toast.LENGTH_SHORT).show();
                break;
        }
 
@@ -88,74 +95,69 @@ public class MainActivity extends ActionBarActivity {
             case R.id.Btn_ms_id:
                 Log.d("mem_click_save_before_c", input_expr);
                 if (input_expr.matches("[.0-9]+")) {
+                    saveHistory("MS");
                     memSave = input_expr;
                     Log.d("mem_click_save", memSave);
                 }
                 break;
             case R.id.Btn_mr_id:
+                saveHistory("MR");
                 show(memSave);
                 Log.d("mem_click_recall", memSave);
                 break;
             case R.id.Btn_mc_id:
+                saveHistory("MC: ");
                 memSave = "";
                 Log.d("mem_click_clear", memSave);
                 break;
             case R.id.Btn_m_plus_id:
                 Log.d("mem_click_m_plus", memSave);
+                saveHistory("M+: ");
                 //operate_mem("-", memSave);
                 break;
             case R.id.Btn_m_minus_id:
                 //operate_mem("+", memSave);
                 Log.d("mem_click_m_minus", memSave);
+                saveHistory("M-: ");
                 break;
         }
     }
 
 
+    public void parseMath (){
+        // parser to calculate math
 
+        Parser parser = new Parser();
 
-
-    public void btn_plus_click(View v) {
-        operation();
-        calculated = false;
-        op = '+';
-
+        try {
+            parser.parse(input_expr);
+            solution = parser.getNumericAnswer();
+            reset();
+            show(Double.toString(solution));
+        } catch(ParsingException ex) {
+            Toast.makeText(this, "Illegal operation", Toast.LENGTH_SHORT).show();
+            reset();
+            Log.e("Error in Parsing", ex.toString());
+        }
     }
 
-    public void btn_minus_click(View v) {
-        operation();
-        calculated = false;
-        op = '-';
+    public void operation_click(View v){
+        // all math operations
 
+        switch (v.getId()){
+            case R.id.Btn_equal_id:
+                saveHistory("=");
+                parseMath();
+                break;
+            case R.id.Btn_plus_id:
+                show("+");
+                break;
+        }
     }
 
-    public void btn_div_click(View v) {
-        operation();
-        calculated = false;
-        op = '/';
-
-    }
-
-    public void btn_mul_click(View v) {
-        operation();
-        calculated = false;
-        op = '*';
-
-    }
-
-    public void btn_equal_click(View v) {
-
-        if (calculated == false)
-            calculate();
-        else
-            Toast.makeText(this, "Nothing to calculate..", Toast.LENGTH_SHORT).show();
-
-
-    }
-
-    public void btn_reset_click(View v) {
-        reset();
-
+    private void saveHistory (String save){
+        history.add(save);
+        Log.d("history", history.toString());
     }
 
     private void reset() {
@@ -169,27 +171,20 @@ public class MainActivity extends ActionBarActivity {
 
     private void show(String value) {
             input_expr = input_expr + value;
+            Log.d("show fn", value);
+            saveHistory(value);
             //result = Integer.parseInt(input_expr);
             display.setText(input_expr);
-
     }
 
-    private void operation() {
-        input_expr = "";
-        sum = result;
-    }
 
-    private void calculate() {
-        calculated = true;
-        if (op == '+')
-            result = sum + result;
-        else if (op == '-')
-            result = sum - result;
-        else if (op == '/')
-            result = sum / result;
-        else if (op == '*')
-            result = sum * result;
-        display.setText("" + result);
+
+    public void show_history(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
+        intent.putExtra("history", history);
+        startActivity(intent);
+
     }
 
 }
