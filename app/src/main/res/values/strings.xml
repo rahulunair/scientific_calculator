@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SimpleCalc</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="Btn_1">1</string>
+    <string name="Btn_2">2</string>
+    <string name="Btn_3">3</string>
+    <string name="Btn_4">4</string>
+    <string name="Btn_5">5</string>
+    <string name="Btn_6">6</string>
+    <string name="Btn_7">7</string>
+    <string name="Btn_8">8</string>
+    <string name="Btn_9">9</string>
+    <string name="Btn_0">0</string>
+    <string name="Btn_plus">+</string>
+    <string name="Btn_minus">-</string>
+    <string name="Btn_divide">/</string>
+    <string name="Btn_mul">*</string>
+    <string name="Btn_reset">Reset</string>
+    <string name="Btn_dot">.</string>
+    <string name="Btn_equal">=</string>
+    <string name="Btn_mc">MC</string>
+    <string name="Btn_mr">MR</string>
+    <string name="Btn_ms">MS</string>
+    <string name="Btn_m_plus">M+</string>
+    <string name="Btn_m_minus">M-</string>
+    <string name="Btn_left">\u2190</string>
+    <string name="Btn_ce">CE</string>
+    <string name="Btn_c">C</string>
+    <string name="Btn_plus_minus">\u00B1</string>
+    <string name="Btn_sq_root">\u221A</string>
+    <string name="Btn_one_b_x">1/x</string>
+    <string name="Btn_perc">%</string>
+    <string name="Btn_left_bracket">(</string>
+    <string name="Btn_right_bracket">)</string>
+    <string name="xsquared">x\u00B2</string>
+    <string name="Btn_nfact">n!</string>
+    <string name="x_raise_y">x^y</string>
+    <string name="y_root_x">y\u221A\x</string>
+    <string name="Btn_x_square">x^2</string>
+    <string name="Btn_fact">n!</string>
+    <string name="Btn_x_y">x^y</string>
+    <string name="Btn_y_root_x">y_r_x</string>
+    <string name="Btn_x_3">x^3</string>
+    <string name="Btn_3_root_x">3r x</string>
+    <string name="Btn_log">log</string>
+    <string name="Btn_10_x">10^x</string>
+    <string name="Btn_mod">mod</string>
+    <string name="Btn_pi">pi</string>
+    <string name="Btn_history">history</string>
+
+
+</resources>
