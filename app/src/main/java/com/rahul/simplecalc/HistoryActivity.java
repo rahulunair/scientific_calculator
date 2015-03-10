@@ -43,14 +43,7 @@ public class HistoryActivity extends ActionBarActivity {
         super.onPause();
 
 
-        FileOutputStream fos = getContext().openFileOutput("calc_history", Context.MODE_PRIVATE);
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(returnlist);
-            oos.close();
-        } catch (Exception e) {
-            Log.e("error in writing", e.toString())
-        }
+        
 
     }
 
