@@ -3,20 +3,26 @@ package com.rahul.simplecalc;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    public String display_this = "";
+
     boolean calculated = false;
     Character op = ' ';
+    String input_expr = "";
     int result, sum;
     EditText display;
+    String memSave = "";
+
+    boolean dotFlag = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,68 +35,85 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    public void number_click(View v) {
+        // Displays clicked numbers
 
-
-
-
-
-
-
-
-    public void btn_0_click(View v) {
-        show("0");
-    }
-
-
-    public void btn_1_click(View v) {
-        show("1");
-    }
-
-    public void btn_2_click(View v) {
-        show("2");
-
-    }
-
-    public void btn_3_click(View v) {
-        show("3");
-
-    }
-
-    public void btn_4_click(View v) {
-        show("4");
-
-    }
-
-    public void btn_5_click(View v) {
-        show("5");
-
-    }
-
-    public void btn_6_click(View v) {
-        show("6");
-
-    }
-
-    public void btn_7_click(View v) {
-        show("7");
+       switch (v.getId()) {
+           case R.id.Btn_0_id:
+               show("0");
+               break;
+           case R.id.Btn_1_id:
+               show("1");
+               break;
+           case R.id.Btn_2_id:
+               show("2");
+               break;
+           case R.id.Btn_3_id:
+               show("3");
+               break;
+           case R.id.Btn_4_id:
+               show("4");
+               break;
+           case R.id.Btn_5_id:
+               show("5");
+               break;
+           case R.id.Btn_6_id:
+               show("6");
+               break;
+           case R.id.Btn_7_id:
+               show("7");
+               break;
+           case R.id.Btn_8_id:
+               show("8");
+               break;
+           case R.id.Btn_9_id:
+               show("9");
+               break;
+           case R.id.Btn_dot_id:
+               if(dotFlag == false) {
+                   show(".");
+                   dotFlag =true;
+               }
+                else Toast.makeText(this, "more than one decimal specifier not allowed", Toast.LENGTH_SHORT).show();
+               break;
+       }
 
     }
 
-    public void btn_8_click(View v) {
-        show("8");
 
+    public void mem_click(View v){
+        // memory functions
+
+        switch (v.getId()) {
+            case R.id.Btn_ms_id:
+                Log.d("mem_click_save_before_c", input_expr);
+                if (input_expr.matches("[.0-9]+")) {
+                    memSave = input_expr;
+                    Log.d("mem_click_save", memSave);
+                }
+                break;
+            case R.id.Btn_mr_id:
+                show(memSave);
+                Log.d("mem_click_recall", memSave);
+                break;
+            case R.id.Btn_mc_id:
+                memSave = "";
+                Log.d("mem_click_clear", memSave);
+                break;
+            case R.id.Btn_m_plus_id:
+                Log.d("mem_click_m_plus", memSave);
+                //operate_mem("-", memSave);
+                break;
+            case R.id.Btn_m_minus_id:
+                //operate_mem("+", memSave);
+                Log.d("mem_click_m_minus", memSave);
+                break;
+        }
     }
 
-    public void btn_9_click(View v) {
-        show("9");
 
-    }
 
-    public void btn_dot_click(View v) {
-        //show(".");
-        Toast.makeText(this, "Not implemented, resetting..", Toast.LENGTH_LONG).show();
 
-    }
 
     public void btn_plus_click(View v) {
         operation();
@@ -136,7 +159,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void reset() {
-        display_this = "";
+        input_expr = "";
         op = ' ';
         result = 0;
         sum = 0;
@@ -145,13 +168,14 @@ public class MainActivity extends ActionBarActivity {
 
 
     private void show(String value) {
-        display_this = display_this + value;
-        result = Integer.parseInt(display_this);
-        display.setText(display_this);
+            input_expr = input_expr + value;
+            //result = Integer.parseInt(input_expr);
+            display.setText(input_expr);
+
     }
 
     private void operation() {
-        display_this = "";
+        input_expr = "";
         sum = result;
     }
 
