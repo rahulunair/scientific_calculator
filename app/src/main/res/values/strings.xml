@@ -37,20 +37,19 @@
     <string name="Btn_right_bracket">)</string>
     <string name="xsquared">x\u00B2</string>
     <string name="Btn_nfact">n!</string>
-    <string name="x_raise_y">x^y</string>
-    <string name="y_root_x">y\u221A\x</string>
-    <string name="Btn_x_square">x^2</string>
+    <string name="Btn_x_square">x²</string>
     <string name="Btn_fact">n!</string>
     <string name="Btn_x_y">x^y</string>
-    <string name="Btn_y_root_x">y_r_x</string>
-    <string name="Btn_x_3">x^3</string>
-    <string name="Btn_3_root_x">3r x</string>
+    <string name="Btn_y_root_x">y√x</string>
+    <string name="Btn_x_3">x³</string>
+    <string name="Btn_cube_root_x">³√x</string>
     <string name="Btn_log">log</string>
     <string name="Btn_10_x">10^x</string>
     <string name="Btn_mod">mod</string>
-    <string name="Btn_pi">pi</string>
+    <string name="Btn_pi">\u03C0</string>
     <string name="Btn_history">history</string>
     <string name="title_activity_history">HistoryActivity</string>
+
 
 
 </resources>

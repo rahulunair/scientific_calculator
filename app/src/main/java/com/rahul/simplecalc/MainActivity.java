@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import mathparser.Parser;
 import mathparser.ParsingException;
@@ -28,6 +29,9 @@ public class MainActivity extends ActionBarActivity {
     EditText display;
     String memSave = "";
     double solution = 0.0;
+    String expr;
+    boolean alternate = false;
+    public static final String TAG = "main_act";
 
     boolean dotFlag = false;
 
@@ -93,43 +97,53 @@ public class MainActivity extends ActionBarActivity {
 
         switch (v.getId()) {
             case R.id.Btn_ms_id:
-                Log.d("mem_click_save_before_c", input_expr);
+                Log.d(TAG, input_expr);
                 if (input_expr.matches("[.0-9]+")) {
                     saveHistory("MS");
                     memSave = input_expr;
-                    Log.d("mem_click_save", memSave);
+                    Log.d(TAG, memSave);
                 }
                 break;
             case R.id.Btn_mr_id:
                 saveHistory("MR");
                 show(memSave);
-                Log.d("mem_click_recall", memSave);
+                Log.d(TAG, memSave);
                 break;
             case R.id.Btn_mc_id:
                 saveHistory("MC: ");
                 memSave = "";
-                Log.d("mem_click_clear", memSave);
+                Log.d(TAG, memSave);
                 break;
             case R.id.Btn_m_plus_id:
-                Log.d("mem_click_m_plus", memSave);
+                Log.d(TAG, memSave);
                 saveHistory("M+: ");
                 //operate_mem("-", memSave);
                 break;
             case R.id.Btn_m_minus_id:
                 //operate_mem("+", memSave);
-                Log.d("mem_click_m_minus", memSave);
+                Log.d(TAG, memSave);
                 saveHistory("M-: ");
                 break;
         }
     }
 
-
     public void parseMath (){
         // parser to calculate math
-
         Parser parser = new Parser();
-
         try {
+            if(input_expr.contains("√")) {
+                String [] operands = input_expr.split("√");
+                String oper1 = "";
+                String oper2 = "";
+                if(operands[0]!= "" || operands[0] != null) {
+                    oper1 = operands[0].split("[^\\w\\.]+")[operands[0].split("[^\\w\\.]+").length - 1]; // the last element of the array
+                    oper2 = operands[1].split("[^\\w\\.]+")[0]; // The first element of the the  array of non special characters
+                    input_expr = input_expr.substring(0, input_expr.lastIndexOf(oper1));
+                    input_expr += "power(" + oper2 + ",1/" + oper1 + ")";
+                }
+            }
+
+            Log.d ("input_expr", input_expr);
             parser.parse(input_expr);
             solution = parser.getNumericAnswer();
             reset();
@@ -143,15 +157,69 @@ public class MainActivity extends ActionBarActivity {
 
     public void operation_click(View v){
         // all math operations
-
+        String local = input_expr;
+        String [] ops = input_expr .split("[^\\w\\.]+");
+        Log.d("split_expr",Arrays.toString(ops) );
         switch (v.getId()){
             case R.id.Btn_equal_id:
                 saveHistory("=");
                 parseMath();
                 break;
+            case R.id.Btn_c_id:
+                reset();
+                break;
+            case R.id.Btn_ce_id:
+                if(ops.length != 0) {
+                    input_expr = input_expr.replace(ops[ops.length -1], "");
+                    show("");
+                }
+                else reset();
+                break;
+            case R.id.Btn_left_id:
+                    if(input_expr.length() >0) {
+                        input_expr = input_expr.substring(0, input_expr.length() - 1);
+                        show("");
+                    }
+                else
+                reset();
+                break;
             case R.id.Btn_plus_id:
                 show("+");
                 break;
+            case R.id.Btn_minus_id:
+                show("-");
+                break;
+            case R.id.Btn_mul_id:
+                show("*");
+                break;
+            case R.id.Btn_div_id:
+                show("/");
+                break;
+            case R.id.Btn_perc_id:
+                show("%");
+                break;
+            case R.id.Btn_sq_id:
+                reset();
+                show("sqrt("+local+")");
+                break;
+            case R.id.button_3_root_x:
+                reset();
+                show("power("+local+", 1/3)");
+            case R.id.button_y_root_x:
+                show("√");
+                break;
+            case R.id.Btn_one_by_x_id:
+                break;
+            case R.id.Btn_l_b:
+                show("(");
+                break;
+            case R.id.Btn_r_b:
+                show(")");
+                break;
+            case R.id.button_log:
+                break;
+
+
         }
     }
 
@@ -171,9 +239,8 @@ public class MainActivity extends ActionBarActivity {
 
     private void show(String value) {
             input_expr = input_expr + value;
-            Log.d("show fn", value);
+            Log.d(TAG, value);
             saveHistory(value);
-            //result = Integer.parseInt(input_expr);
             display.setText(input_expr);
     }
 
