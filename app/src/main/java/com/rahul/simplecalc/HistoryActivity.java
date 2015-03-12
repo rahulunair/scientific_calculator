@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -41,12 +42,13 @@ public class HistoryActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        hist_Stringified = readFromFile();
         hist_Stringified += hist.toString().replace("[", "").replace("]", "");
-        if (hist_Stringified == "" || hist_Stringified == null)
-            hist_Stringified = readFromFile();
-       // hist_Stringified = saved_history.getString("history", null);
-        edit.setText(hist_Stringified);
 
+       // hist_Stringified = saved_history.getString("history", null);
+        if (hist_Stringified == null) hist_Stringified = " ";
+        Log.d("hist_Stringified", hist_Stringified);
+        edit.setText(hist_Stringified);
     }
 
     @Override
@@ -55,6 +57,7 @@ public class HistoryActivity extends ActionBarActivity {
        // SharedPreferences.Editor editor = saved_history.edit();
         //editor.putString("history", TextUtils.join(",", hist));
         //editor.commit();
+        Log.d("hist_Stringified",hist_Stringified );
         writeToFile(hist_Stringified);
 
     }
@@ -65,45 +68,32 @@ public class HistoryActivity extends ActionBarActivity {
 
         // persistant storage to a file history.txt
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("history.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
+            FileOutputStream fos = openFileOutput("data_save_00", Context.MODE_PRIVATE | Context.MODE_WORLD_READABLE);
+            fos.write(data.getBytes());
+            fos.close();
         }
         catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+            Log.e("history_activity", "File write failed: " + e.toString());
         }
     }
 
 
     private String readFromFile() {
         // persistant storage read from a file history.txt
-
         String ret = "";
 
         try {
-            InputStream inputStream = openFileInput("history.txt");
 
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-                ret = stringBuilder.toString();
+            BufferedReader inputReader = new BufferedReader(new InputStreamReader(openFileInput("data_save_00")));
+            String inputString;
+            StringBuffer stringBuffer = new StringBuffer();
+            while ((inputString = inputReader.readLine()) != null) {
+                stringBuffer.append(inputString + "\n");
             }
-        }
-        catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e("login activity", "Can not read file: " + e.toString());
-        }
+            ret = stringBuffer.toString();
+        } catch (IOException io){io.printStackTrace();}
 
-        return ret;
+    return ret;
     }
 
 
