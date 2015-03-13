@@ -157,7 +157,13 @@ public class MainActivity extends ActionBarActivity {
             parser.parse(input_expr);
             solution = parser.getNumericAnswer();
             reset();
-            show(Double.toString(solution));
+            String result;
+            result = Double.toString(solution);
+            input_expr = input_expr + result;
+            Log.d(TAG, result);
+            saveHistory(input_expr+"\n");
+            display.setText(input_expr);
+
         } catch (ParsingException ex) {
             Toast.makeText(this, "Illegal operation", Toast.LENGTH_SHORT).show();
             reset();

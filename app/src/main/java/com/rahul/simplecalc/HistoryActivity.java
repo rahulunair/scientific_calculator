@@ -42,11 +42,12 @@ public class HistoryActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        hist_Stringified = readFromFile();
-        hist_Stringified += hist.toString().replace("[", "").replace("]", "");
-
+        hist_Stringified = hist.toString().replace("[", "").replace("]", "").replace(",", " ");
+        //writeToFile(hist_Stringified);
+       // hist_Stringified = readFromFile();
        // hist_Stringified = saved_history.getString("history", null);
-        if (hist_Stringified == null) hist_Stringified = " ";
+        if (hist_Stringified == null ||hist_Stringified == "" || hist_Stringified == " " ) hist_Stringified = readFromFile();
+        if(hist_Stringified == null) hist_Stringified = "No history to show";
         Log.d("hist_Stringified", hist_Stringified);
         edit.setText(hist_Stringified);
     }
